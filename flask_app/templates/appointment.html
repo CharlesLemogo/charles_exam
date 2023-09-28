@@ -1,0 +1,56 @@
+{%extends 'base.html'%} {%block content%}
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <h1>Hello {{user.first_name}}</h1>
+    <div class="navbar-nav">
+      <a
+        class="nav-link active text-primary"
+        aria-current="page"
+def logout():
+        href="{{url_for('logout')}}"
+        >Logout</a
+      >
+    </div>
+  </div>
+</nav>
+<div class="d-flex bd-highlight">
+  <div class="p-2 flex-grow-1 bd-highlight">Here are your appointments.</div>
+  <div class="p-2 bd-highlight">
+    <a href="{{url_for('new_appointment')}}"> <i class="fa-solid fa-plus"></i>Add new appointment</a>
+  </div>
+</div>
+<table class="table text-center">
+  <thead>
+    <tr>
+      <th scope="col">Task</th>
+      <th scope="col">Date</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for appointment in appointments%}
+    <tr>
+      <td>{{appointment.task}}</td>
+      <td>{{appointment.date}}</td>
+      {% if appointment.status == 1%}
+      <td>pending</td>
+      <td>
+        <a href="/appointments/edit/{{appointment.id}}">Edit</a> |
+        <a href="/appointments/destroy/{{appointment.id}}">Delete</a>
+      </td>
+      {% elif appointment.status == 2 %}
+      <td>Done</td>
+      {% else %}
+      <td>Missing</td>
+      <td>
+          <a href="/appointments/edit/{{appointment.id}}">Edit |</a>
+          <a href="/appointments/destroy/{{appointment.id}}">Delete</a>
+      </td>
+  {%endif%}
+</tr>
+{% endfor %}
+    
+  </tbody>
+</table>
+{%endblock%}
